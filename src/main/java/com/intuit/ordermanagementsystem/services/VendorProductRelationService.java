@@ -4,5 +4,7 @@ import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCrea
 import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 
 public interface VendorProductRelationService {
+
     VendorProductRelationDTO createRelation(VendorProductRelationCreateParams params);
+
 }

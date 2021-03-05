@@ -3,11 +3,11 @@ package com.intuit.ordermanagementsystem.models.request;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.Data;
-
 import java.util.UUID;
 
 @Data
 public class VendorProductRelationCreateParams {
+
     UUID vendorUuid;
     Double vendorPrice;
     VendorProductRelation.TaxSlab taxSlab;
@@ -16,4 +16,5 @@ public class VendorProductRelationCreateParams {
     UUID vendorOriginAddressUuid;
     UUID productUuid;
     Product product;
+
 }

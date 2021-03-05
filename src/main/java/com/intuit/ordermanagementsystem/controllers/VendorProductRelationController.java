@@ -42,6 +42,7 @@ public class VendorProductRelationController {
         if(StringUtils.isEmpty(params.getProductUuid()))
             throw new IllegalArgumentException("Product UUID must be present");
     }
+
 }
 
 //todo update call

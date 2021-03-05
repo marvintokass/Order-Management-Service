@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Optional;
 
 @Service
@@ -25,7 +24,6 @@ public class OrderServiceImpl implements OrderService{
     private ProductRepository productRepository;
     @Autowired
     private VendorProductRelationRepository vendorProductRelationRepository;
-
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
@@ -58,5 +56,6 @@ public class OrderServiceImpl implements OrderService{
             relation.setStatus(VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK);
         vendorProductRelationRepository.save(relation);
     }
+
 }
 

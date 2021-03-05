@@ -13,7 +13,6 @@ import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,6 @@ public class ProductServiceImpl implements ProductService{
     private VendorProductRelationRepository vendorProductRelationRepository;
     @Autowired
     private UserManagementServiceCommunicator umsCommunicator;
-
 
     @Override
     public ProductDTO createProduct(ProductCreateParams params) {

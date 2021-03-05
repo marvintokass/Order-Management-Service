@@ -1,4 +1,5 @@
 package com.intuit.ordermanagementsystem.controllers;
+
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleException(Exception ex) {
         logErrorDetails(ex);
         return getResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
-
     }
 
     @ExceptionHandler(Exception.class)

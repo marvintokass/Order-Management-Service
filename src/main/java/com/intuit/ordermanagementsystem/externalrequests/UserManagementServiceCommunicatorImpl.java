@@ -2,7 +2,6 @@ package com.intuit.ordermanagementsystem.externalrequests;
 
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

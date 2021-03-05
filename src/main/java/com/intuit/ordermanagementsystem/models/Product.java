@@ -6,15 +6,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,4 +65,5 @@ public class Product {
         this.basePrice = params.getBasePrice();
         this.name = params.getName();
     }
+
 }

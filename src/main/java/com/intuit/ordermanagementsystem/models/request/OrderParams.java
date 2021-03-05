@@ -7,8 +7,10 @@ import java.util.UUID;
 
 @Data
 public class OrderParams {
+
     UUID deliveryAddressUuid;
     @JsonFormat(pattern="dd/MM/yyyy")
     Date deliveryDate;
     UUID buyerUuid;
+
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductPriceQuoteDTO {
+
     VendorProductRelationDTO priceQuote;
     ProductDTO product;
 
@@ -11,5 +12,6 @@ public class ProductPriceQuoteDTO {
         this.product = product;
         this.priceQuote = relation;
     }
+
 }
 

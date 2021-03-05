@@ -1,8 +1,8 @@
 package com.intuit.ordermanagementsystem.models.dto;
+
 import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.OrderItem;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,4 +37,5 @@ public class OrderDTO {
     private Double totalAmount;
     private Date deliveryDate;
     private List<OrderItemDTO> orderItems;
+
 }

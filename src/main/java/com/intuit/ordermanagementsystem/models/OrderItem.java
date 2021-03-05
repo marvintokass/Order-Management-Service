@@ -2,18 +2,15 @@ package com.intuit.ordermanagementsystem.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 
@@ -78,4 +75,5 @@ public class OrderItem {
         this.taxSlab = orderItemParams.getTaxSlab();
         this.order = orderItemParams.getOrder();
     }
+
 }

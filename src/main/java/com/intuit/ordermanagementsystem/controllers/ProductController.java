@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
 
 @RestController
@@ -49,4 +48,5 @@ public class ProductController {
         if(params.getBasePrice() != null && params.getBasePrice() < 0)
             throw new IllegalArgumentException("Product price must be positive");
     }
+
 }

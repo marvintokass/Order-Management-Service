@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,4 +37,5 @@ public class ProductDTO {
     private ObjectNode details;
     private Product.ProductStatus status;
     private List<VendorProductRelationDTO> vendorProductRelations;
+
 }

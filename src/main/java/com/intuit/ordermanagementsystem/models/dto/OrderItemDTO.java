@@ -1,8 +1,8 @@
 package com.intuit.ordermanagementsystem.models.dto;
+
 import com.intuit.ordermanagementsystem.models.OrderItem;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,4 +31,5 @@ public class OrderItemDTO {
     private OrderItem.OrderItemStatus status;
     private VendorProductRelation.TaxSlab taxSlab;
     private UUID originAddressUuid;
+
 }
