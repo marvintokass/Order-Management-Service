@@ -1,8 +1,8 @@
 package com.intuit.ordermanagementsystem.services;
 
-import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
+import com.intuit.ordermanagementsystem.models.response.OrderDTO;
 
 public interface OrderService {
-    Order createOrder(OrderCreateParams params);
+    OrderDTO createOrder(OrderCreateParams params);
 }

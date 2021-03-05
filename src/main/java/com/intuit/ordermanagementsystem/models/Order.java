@@ -26,7 +26,7 @@ import java.util.UUID;
 public class Order {
 
     public enum OrderStatus {
-        RETURNED, ORDERED, CANCELLED
+        RETURNED, ORDERED, CANCELLED, DELIVERED, IN_PROGRESS
     }
 
     @Id
@@ -46,15 +46,16 @@ public class Order {
     @Column(name = "delivery_address_uuid")
     private UUID deliveryAddressUuid;
 
+
+    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "default 'ORDERED'")
     private OrderStatus status;
 
     @Column(name = "buyer_uuid")
     private UUID buyerUuid;
 
     @Column(name = "total_amount")
-    private double totalAmount;
+    private Double totalAmount;
 
     @Column(name = "delivery_date")
     private Date deliveryDate;

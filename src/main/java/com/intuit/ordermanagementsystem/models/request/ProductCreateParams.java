@@ -1,13 +1,14 @@
 package com.intuit.ordermanagementsystem.models.request;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.intuit.ordermanagementsystem.models.Product;
-import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.Data;
+
+import java.util.UUID;
 
 @Data
 public class ProductCreateParams {
     String name;
+    Double basePrice;
     ObjectNode details;
-    Product.ProductStatus status;
+    UUID categoryUuid;
 }

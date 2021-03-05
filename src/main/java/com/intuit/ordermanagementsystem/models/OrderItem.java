@@ -25,7 +25,7 @@ import java.util.UUID;
 public class OrderItem {
 
     public enum OrderItemStatus {
-        RETURNED, ORDERED, CANCELLED
+        RETURNED, ORDERED, CANCELLED, DELIVERED, IN_PROGRESS
     }
 
     @Id
@@ -46,15 +46,15 @@ public class OrderItem {
     @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
     private Product product;
 
-    private double quantity;
+    private Double quantity;
 
     @Column(name = "vendor_uuid")
     private UUID vendorUuid;
 
-    private double price;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "default 'ORDERED'")
+    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
     private OrderItemStatus status;
 
     @Column(name = "tax_slab")

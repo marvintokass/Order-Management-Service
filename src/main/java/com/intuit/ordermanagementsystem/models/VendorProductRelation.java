@@ -48,14 +48,14 @@ public class VendorProductRelation {
     private UUID vendorUuid;
 
     @Column(name = "vendor_price")
-    private double vendorPrice;
+    private Double vendorPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tax_slab")
     private TaxSlab taxSlab;
 
     @Column(name = "available_quantity")
-    private double availableQuantity;
+    private Double availableQuantity;
 
     @Enumerated(EnumType.STRING)
     private VendorProductRelationStatus status;

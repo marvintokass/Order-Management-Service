@@ -2,11 +2,14 @@ package com.intuit.ordermanagementsystem.controllers;
 
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
+import com.intuit.ordermanagementsystem.models.response.ProductDTO;
 import com.intuit.ordermanagementsystem.models.response.ProductPriceQuote;
 import com.intuit.ordermanagementsystem.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,14 +22,17 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(produces = "application/json")
-    ResponseEntity<Product> createProduct(@RequestBody ProductCreateParams productCreateParams) {
-        Product product = productService.createProduct(productCreateParams);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    ResponseEntity<ProductDTO> createProduct(@RequestBody ProductCreateParams productCreateParams) {
+        validateProductCreationParams(productCreateParams);
+        ProductDTO product = productService.createProduct(productCreateParams);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "products/" + product.getUuid());
+        return new ResponseEntity<>(product, headers, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{uuid}", produces = "application/json")
-    ResponseEntity<Product> getProduct(@PathVariable UUID uuid) {
-        Product product = productService.getProduct(uuid);
+    ResponseEntity<ProductDTO> getProduct(@PathVariable UUID uuid) {
+        ProductDTO product = productService.getProduct(uuid);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -34,5 +40,14 @@ public class ProductController {
     ResponseEntity<ProductPriceQuote> getProductPriceQuote(@PathVariable UUID uuid) {
         ProductPriceQuote quote = productService.getProductPriceQuote(uuid);
         return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+    private void validateProductCreationParams(ProductCreateParams params) {
+        if(StringUtils.isEmpty(params.getName()))
+            throw new IllegalArgumentException("Product Name must be present");
+        if(params.getCategoryUuid() == null)
+            throw new IllegalArgumentException("Category UUID must be present");
+        if(params.getBasePrice() != null && params.getBasePrice() < 0)
+            throw new IllegalArgumentException("Product price must be positive");
     }
 }

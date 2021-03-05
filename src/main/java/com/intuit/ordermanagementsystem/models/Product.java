@@ -45,11 +45,18 @@ public class Product {
 
     private String name;
 
+    @Column(name = "base_price")
+    private Double basePrice;
+
+    @Column(name = "category_uuid")
+    private UUID categoryUuid;
+
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private ObjectNode details;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(255) default 'ACTIVE'")
     private ProductStatus status;
 
     @JsonManagedReference
@@ -57,8 +64,8 @@ public class Product {
     private List<VendorProductRelation> vendorProductRelations;
 
     public Product(ProductCreateParams params) {
-        this.setDetails(params.getDetails());
-        this.setName(params.getName());
-        this.setStatus(params.getStatus());
+        this.details = params.getDetails();
+        this.basePrice = params.getBasePrice();
+        this.name = params.getName();
     }
 }

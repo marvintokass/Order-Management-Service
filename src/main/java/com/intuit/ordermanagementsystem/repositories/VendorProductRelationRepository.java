@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface VendorProductRelationRepository extends JpaRepository<VendorProductRelation, UUID> {
     Optional<VendorProductRelation> findFirstByProductOrderByVendorPriceAsc(Product product);
+
+    Optional<VendorProductRelation> findFirstByProductAndVendorUuidAndVendorOriginAddressUuid(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid);
 }

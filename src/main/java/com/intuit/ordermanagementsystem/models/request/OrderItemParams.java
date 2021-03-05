@@ -10,9 +10,9 @@ import java.util.UUID;
 public class OrderItemParams {
     UUID productUuid;
     Product product;
-    double quantity;
+    Double quantity;
     UUID vendorUuid;
-    double price;
+    Double price;
     VendorProductRelation.TaxSlab taxSlab;
     UUID originAddressUuid;
     Order order;

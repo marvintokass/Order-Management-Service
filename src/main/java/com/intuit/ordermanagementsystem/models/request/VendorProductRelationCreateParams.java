@@ -9,9 +9,9 @@ import java.util.UUID;
 @Data
 public class VendorProductRelationCreateParams {
     UUID vendorUuid;
-    double vendorPrice;
+    Double vendorPrice;
     VendorProductRelation.TaxSlab taxSlab;
-    double availableQuantity;
+    Double availableQuantity;
     VendorProductRelation.VendorProductRelationStatus status;
     UUID vendorOriginAddressUuid;
     UUID productUuid;
