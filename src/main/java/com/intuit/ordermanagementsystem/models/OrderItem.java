@@ -1,7 +1,10 @@
 package com.intuit.ordermanagementsystem.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +17,8 @@ import java.util.UUID;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "order_items")
 public class OrderItem {
 
@@ -54,6 +59,7 @@ public class OrderItem {
     @Column(name = "origin_address_uuid")
     private UUID originAddressUuid;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "order_uuid", referencedColumnName = "uuid")
     private Order order;

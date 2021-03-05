@@ -1,7 +1,11 @@
 package com.intuit.ordermanagementsystem.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,12 +16,14 @@ import java.util.UUID;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "vendor_product_relations")
 public class VendorProductRelation {
 
     public enum VendorProductRelationStatus {
-        DISABLED, OUT_OF_STOCK
+        AVAILABLE, DISABLED, OUT_OF_STOCK
     }
 
     @Id
@@ -49,7 +55,16 @@ public class VendorProductRelation {
     @Column(name = "vendor_origin_address_uuid")
     private UUID vendorOriginAddressUuid;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
     private Product product;
+
+    public VendorProductRelation(VendorProductRelationCreateParams params) {
+        this.availableQuantity = params.getAvailableQuantity();
+        this.status = params.getStatus();
+        this.vendorOriginAddressUuid = params.getVendorOriginAddressUuid();
+        this.vendorPrice = params.getVendorPrice();
+        this.vendorUuid = params.getVendorUuid();
+    }
 }
