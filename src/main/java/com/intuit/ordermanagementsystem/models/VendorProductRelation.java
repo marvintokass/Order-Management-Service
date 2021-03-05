@@ -34,9 +34,6 @@ public class VendorProductRelation {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "product_uuid")
-    private UUID productUuid;
-
     @Column(name = "vendor_uuid")
     private UUID vendorUuid;
 
@@ -52,4 +49,7 @@ public class VendorProductRelation {
     @Column(name = "vendor_origin_address_uuid")
     private UUID vendorOriginAddressUuid;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
+    private Product product;
 }

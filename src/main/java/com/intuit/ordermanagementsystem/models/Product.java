@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -55,4 +56,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     @Column(name = "tax_slab")
     private TaxSlab taxSlab;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<VendorProductRelation> vendorProductRelations;
 }

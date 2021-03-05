@@ -3,6 +3,7 @@ package com.intuit.ordermanagementsystem.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -52,5 +53,9 @@ public class OrderItem {
 
     @Column(name = "origin_address_uuid")
     private UUID originAddressUuid;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "order_uuid", referencedColumnName = "uuid")
+    private Order order;
 
 }
