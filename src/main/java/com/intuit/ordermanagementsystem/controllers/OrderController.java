@@ -1,10 +1,9 @@
 package com.intuit.ordermanagementsystem.controllers;
 
-import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import com.intuit.ordermanagementsystem.models.request.OrderParams;
-import com.intuit.ordermanagementsystem.models.response.OrderDTO;
+import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
 import com.intuit.ordermanagementsystem.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -1,9 +1,8 @@
 package com.intuit.ordermanagementsystem.controllers;
 
-import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
-import com.intuit.ordermanagementsystem.models.response.ProductDTO;
-import com.intuit.ordermanagementsystem.models.response.ProductPriceQuote;
+import com.intuit.ordermanagementsystem.models.dto.ProductDTO;
+import com.intuit.ordermanagementsystem.models.dto.ProductPriceQuoteDTO;
 import com.intuit.ordermanagementsystem.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{uuid}/price-quote", produces = "application/json")
-    ResponseEntity<ProductPriceQuote> getProductPriceQuote(@PathVariable UUID uuid) {
-        ProductPriceQuote quote = productService.getProductPriceQuote(uuid);
+    ResponseEntity<ProductPriceQuoteDTO> getProductPriceQuote(@PathVariable UUID uuid) {
+        ProductPriceQuoteDTO quote = productService.getProductPriceQuote(uuid);
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }
 

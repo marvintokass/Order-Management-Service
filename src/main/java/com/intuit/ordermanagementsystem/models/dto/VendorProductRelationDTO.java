@@ -1,4 +1,4 @@
-package com.intuit.ordermanagementsystem.models.response;
+package com.intuit.ordermanagementsystem.models.dto;
 
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.AllArgsConstructor;

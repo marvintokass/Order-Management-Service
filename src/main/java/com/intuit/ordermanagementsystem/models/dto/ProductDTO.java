@@ -1,4 +1,4 @@
-package com.intuit.ordermanagementsystem.models.response;
+package com.intuit.ordermanagementsystem.models.dto;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intuit.ordermanagementsystem.models.Product;

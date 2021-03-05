@@ -1,9 +1,8 @@
-package com.intuit.ordermanagementsystem.models.response;
+package com.intuit.ordermanagementsystem.models.dto;
 import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.OrderItem;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;

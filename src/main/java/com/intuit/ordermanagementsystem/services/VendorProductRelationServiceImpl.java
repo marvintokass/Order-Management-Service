@@ -6,7 +6,7 @@ import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
-import com.intuit.ordermanagementsystem.models.response.VendorProductRelationDTO;
+import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;

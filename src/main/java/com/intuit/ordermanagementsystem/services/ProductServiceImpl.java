@@ -5,10 +5,10 @@ import com.intuit.ordermanagementsystem.externalrequests.UserManagementServiceCo
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
-import com.intuit.ordermanagementsystem.models.response.ProductDTO;
-import com.intuit.ordermanagementsystem.models.response.ProductPriceQuote;
+import com.intuit.ordermanagementsystem.models.dto.ProductDTO;
+import com.intuit.ordermanagementsystem.models.dto.ProductPriceQuoteDTO;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
-import com.intuit.ordermanagementsystem.models.response.VendorProductRelationDTO;
+import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductPriceQuote getProductPriceQuote(UUID uuid) {
+    public ProductPriceQuoteDTO getProductPriceQuote(UUID uuid) {
         Optional<Product> optionalProduct = productRepository.findById(uuid);
         if(!optionalProduct.isPresent()) throw new ResourceNotFoundException("Product not found with UUID: " + uuid.toString());
         Product product = optionalProduct.get();
@@ -54,12 +54,12 @@ public class ProductServiceImpl implements ProductService{
         if(!optionalRelation.isPresent())
             throw new ResourceNotFoundException("Price quote not found for product: " + uuid);
         VendorProductRelation relation = optionalRelation.get();
-        ProductPriceQuote quote = new ProductPriceQuote(new ProductDTO(product), new VendorProductRelationDTO(relation));
+        ProductPriceQuoteDTO quote = new ProductPriceQuoteDTO(new ProductDTO(product), new VendorProductRelationDTO(relation));
         fetchAndSetVendorNames(quote);
         return quote;
     }
 
-    private void fetchAndSetVendorNames(ProductPriceQuote quote) {
+    private void fetchAndSetVendorNames(ProductPriceQuoteDTO quote) {
         List<UUID> userUUIDs = new ArrayList<>();
         userUUIDs.add(quote.getPriceQuote().getVendorUuid());
         for(int i=0;i<5 && i < quote.getProduct().getVendorProductRelations().size(); i++) {
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService{
         addVendorNames(users, quote);
     }
 
-    private void addVendorNames(List<UserResponseDTO> users, ProductPriceQuote quote) {
+    private void addVendorNames(List<UserResponseDTO> users, ProductPriceQuoteDTO quote) {
         addVendorNameForRelation(users, quote.getPriceQuote());
         for(int i = 0; i < 5 && i < quote.getProduct().getVendorProductRelations().size(); i++) {
             VendorProductRelationDTO relationDTO = quote.getProduct().getVendorProductRelations().get(i);

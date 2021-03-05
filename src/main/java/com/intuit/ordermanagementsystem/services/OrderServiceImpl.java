@@ -5,7 +5,7 @@ import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
-import com.intuit.ordermanagementsystem.models.response.OrderDTO;
+import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
 import com.intuit.ordermanagementsystem.repositories.OrderRepository;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;

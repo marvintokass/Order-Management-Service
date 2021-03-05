@@ -1,8 +1,7 @@
 package com.intuit.ordermanagementsystem.controllers;
 
-import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
-import com.intuit.ordermanagementsystem.models.response.VendorProductRelationDTO;
+import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("vendor-product-relations")
