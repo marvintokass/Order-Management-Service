@@ -53,11 +53,11 @@ public class ProductServiceImpl implements ProductService{
             throw new ResourceNotFoundException("Price quote not found for product: " + uuid);
         VendorProductRelation relation = optionalRelation.get();
         ProductPriceQuoteDTO quote = new ProductPriceQuoteDTO(new ProductDTO(product), new VendorProductRelationDTO(relation));
-        fetchAndSetVendorNames(quote);
+        fetchAndSetVendorNamesForProductPriceDTO(quote);
         return quote;
     }
 
-    private void fetchAndSetVendorNames(ProductPriceQuoteDTO quote) {
+    private void fetchAndSetVendorNamesForProductPriceDTO(ProductPriceQuoteDTO quote) {
         List<UUID> userUUIDs = new ArrayList<>();
         userUUIDs.add(quote.getPriceQuote().getVendorUuid());
         for(int i=0;i<5 && i < quote.getProduct().getVendorProductRelations().size(); i++) {

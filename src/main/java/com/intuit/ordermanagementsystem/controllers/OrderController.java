@@ -43,6 +43,9 @@ public class OrderController {
     }
 
     private void validateOrderItemCreateParams(List<OrderItemParams> params) {
+        if(params == null || params.isEmpty()) {
+            throw new IllegalArgumentException("Order Items must be present");
+        }
         for (OrderItemParams param : params) {
             if(param.getProductUuid() == null)
                 throw new IllegalArgumentException("Product UUID must be present");

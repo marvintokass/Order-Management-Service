@@ -13,9 +13,8 @@ public class OrderItemParams {
     Product product;
     Double quantity;
     UUID vendorUuid;
-    Double price;
-    VendorProductRelation.TaxSlab taxSlab;
     UUID originAddressUuid;
     Order order;
-
+    Double price;
+    VendorProductRelation.TaxSlab taxSlab;
 }

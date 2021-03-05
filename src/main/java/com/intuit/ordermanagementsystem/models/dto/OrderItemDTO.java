@@ -21,6 +21,7 @@ public class OrderItemDTO {
         this.taxSlab = orderItem.getTaxSlab();
         this.originAddressUuid = orderItem.getOriginAddressUuid();
     }
+
     private UUID uuid;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

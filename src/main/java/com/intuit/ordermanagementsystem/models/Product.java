@@ -64,6 +64,7 @@ public class Product {
         this.details = params.getDetails();
         this.basePrice = params.getBasePrice();
         this.name = params.getName();
+        this.categoryUuid = params.getCategoryUuid();
     }
 
 }
