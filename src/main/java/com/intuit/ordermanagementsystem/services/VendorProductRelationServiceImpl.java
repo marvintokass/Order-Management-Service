@@ -20,10 +20,10 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
 
     @Override
     public VendorProductRelation createRelation(VendorProductRelationCreateParams params) {
-        VendorProductRelation relation = new VendorProductRelation(params);
         Optional<Product> optionalProduct = productRepository.findById(params.getProductUuid());
         if(!optionalProduct.isPresent()) throw new RuntimeException("product not found");
-        relation.setProduct(optionalProduct.get());
+        params.setProduct(optionalProduct.get());
+        VendorProductRelation relation = new VendorProductRelation(params);
         vendorProductRelationRepository.save(relation);
         return relation;
     }

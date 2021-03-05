@@ -26,6 +26,10 @@ public class VendorProductRelation {
         AVAILABLE, DISABLED, OUT_OF_STOCK
     }
 
+    public enum TaxSlab {
+        FIVE, TWELVE, EIGHTEEN, TWENTY_EIGHT, THREE, POINT_TWO_FIVE
+    }
+
     @Id
     @GeneratedValue
     private UUID uuid;
@@ -38,13 +42,17 @@ public class VendorProductRelation {
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Kolkata")
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "vendor_uuid")
     private UUID vendorUuid;
 
     @Column(name = "vendor_price")
     private double vendorPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tax_slab")
+    private TaxSlab taxSlab;
 
     @Column(name = "available_quantity")
     private double availableQuantity;
@@ -66,5 +74,7 @@ public class VendorProductRelation {
         this.vendorOriginAddressUuid = params.getVendorOriginAddressUuid();
         this.vendorPrice = params.getVendorPrice();
         this.vendorUuid = params.getVendorUuid();
+        this.taxSlab = params.getTaxSlab();
+        this.product = params.getProduct();
     }
 }

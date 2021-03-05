@@ -2,15 +2,17 @@ package com.intuit.ordermanagementsystem.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
+import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +26,7 @@ import java.util.UUID;
 public class Order {
 
     public enum OrderStatus {
-        CREATED, DELIVERED, RETURNED, PENDING, IN_TRANSIT
+        RETURNED, ORDERED, CANCELLED
     }
 
     @Id
@@ -39,12 +41,13 @@ public class Order {
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Kolkata")
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "delivery_address_uuid")
     private UUID deliveryAddressUuid;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "default 'ORDERED'")
     private OrderStatus status;
 
     @Column(name = "buyer_uuid")
@@ -53,8 +56,23 @@ public class Order {
     @Column(name = "total_amount")
     private double totalAmount;
 
+    @Column(name = "delivery_date")
+    private Date deliveryDate;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    public Order(OrderCreateParams params) {
+        this.buyerUuid = params.getOrderParams().getBuyerUuid();
+        this.deliveryAddressUuid = params.getOrderParams().getDeliveryAddressUuid();
+        this.deliveryDate = params.getOrderParams().getDeliveryDate();
+        List<OrderItem> orderItems = new ArrayList<>();
+        for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
+            orderItemParams.setOrder(this);
+            orderItems.add(new OrderItem(orderItemParams));
+        }
+        this.orderItems = orderItems;
+    }
 
 }

@@ -29,10 +29,6 @@ public class Product {
         ACTIVE, IN_ACTIVE
     }
 
-    public enum TaxSlab {
-        FIVE, TWELVE, EIGHTEEN, TWENTY_EIGHT, THREE, POINT_TWO_FIVE
-    }
-
     @Id
     @GeneratedValue
     private UUID uuid;
@@ -45,7 +41,7 @@ public class Product {
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Kolkata")
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     private String name;
 
@@ -53,25 +49,16 @@ public class Product {
     @Column(columnDefinition = "jsonb")
     private ObjectNode details;
 
-    @Column(name="base_price")
-    private double basePrice;
-
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tax_slab")
-    private TaxSlab taxSlab;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<VendorProductRelation> vendorProductRelations;
 
     public Product(ProductCreateParams params) {
-        this.setBasePrice(params.getBasePrice());
         this.setDetails(params.getDetails());
         this.setName(params.getName());
         this.setStatus(params.getStatus());
-        this.setTaxSlab(params.getTaxSlab());
     }
 }

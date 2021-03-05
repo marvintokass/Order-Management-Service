@@ -1,11 +1,7 @@
 package com.intuit.ordermanagementsystem.controllers;
 
-import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
-import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
-import com.intuit.ordermanagementsystem.repositories.ProductRepository;
-import com.intuit.ordermanagementsystem.services.ProductService;
 import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

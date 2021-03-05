@@ -2,6 +2,8 @@ package com.intuit.ordermanagementsystem.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
+import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,7 @@ import java.util.UUID;
 public class OrderItem {
 
     public enum OrderItemStatus {
-        RETURNED, ORDERED
+        RETURNED, ORDERED, CANCELLED
     }
 
     @Id
@@ -38,10 +40,11 @@ public class OrderItem {
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Kolkata")
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
-    @Column(name = "product_uuid")
-    private UUID productUuid;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
+    private Product product;
 
     private double quantity;
 
@@ -50,11 +53,13 @@ public class OrderItem {
 
     private double price;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "default 'ORDERED'")
     private OrderItemStatus status;
 
     @Column(name = "tax_slab")
     @Enumerated(EnumType.STRING)
-    private Product.TaxSlab taxSlab;
+    private VendorProductRelation.TaxSlab taxSlab;
 
     @Column(name = "origin_address_uuid")
     private UUID originAddressUuid;
@@ -64,4 +69,13 @@ public class OrderItem {
     @JoinColumn(name = "order_uuid", referencedColumnName = "uuid")
     private Order order;
 
+    public OrderItem(OrderItemParams orderItemParams) {
+        this.originAddressUuid = orderItemParams.getOriginAddressUuid();
+        this.product = orderItemParams.getProduct();
+        this.vendorUuid = orderItemParams.getVendorUuid();
+        this.price = orderItemParams.getPrice();
+        this.quantity = orderItemParams.getQuantity();
+        this.taxSlab = orderItemParams.getTaxSlab();
+        this.order = orderItemParams.getOrder();
+    }
 }

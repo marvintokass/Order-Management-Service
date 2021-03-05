@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class ProductPriceQuote {
+    VendorProductRelation priceQuote;
     Product product;
-    VendorProductRelation bestQuote;
 
     public ProductPriceQuote(Product product, VendorProductRelation relation) {
         this.product = product;
-        this.bestQuote = relation;
+        this.priceQuote = relation;
     }
 }
