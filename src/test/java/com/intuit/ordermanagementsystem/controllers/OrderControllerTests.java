@@ -5,7 +5,6 @@ import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import com.intuit.ordermanagementsystem.models.request.OrderParams;
 import com.intuit.ordermanagementsystem.services.OrderService;
-import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
