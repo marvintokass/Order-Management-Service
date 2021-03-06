@@ -77,6 +77,7 @@ public class Order {
         this.buyerUuid = params.getOrderParams().getBuyerUuid();
         this.deliveryAddressUuid = params.getOrderParams().getDeliveryAddressUuid();
         this.deliveryDate = params.getOrderParams().getDeliveryDate();
+        this.totalAmount = params.getOrderParams().getTotalAmount();
         List<OrderItem> orderItems = new ArrayList<>();
         for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
             orderItemParams.setOrder(this);

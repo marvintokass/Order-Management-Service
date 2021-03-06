@@ -12,5 +12,6 @@ public class OrderParams {
     @JsonFormat(pattern="dd/MM/yyyy")
     Date deliveryDate;
     UUID buyerUuid;
+    Double totalAmount;
 
 }

@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public void updateVendorProductRelations(OrderCreateParams params) {
+        double totalAmount = 0.0;
         for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
             VendorProductRelationDTO relation = vendorProductRelationService.getAvailableRelationByProductVendorAndOrigin(orderItemParams.getProduct(), orderItemParams.getVendorUuid(), orderItemParams.getOriginAddressUuid());
             if (relation.getAvailableQuantity() < orderItemParams.getQuantity())
@@ -62,8 +63,10 @@ public class OrderServiceImpl implements OrderService {
             VendorProductRelationUpdateParams relationUpdateParams = new VendorProductRelationUpdateParams();
             relationUpdateParams.setAvailableQuantity(relation.getAvailableQuantity() - orderItemParams.getQuantity());
             relationUpdateParams.setStatus(relationUpdateParams.getAvailableQuantity() == 0 ? VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK : null);
+            totalAmount += (relation.getVendorPrice() * orderItemParams.getQuantity());
             vendorProductRelationService.updateRelation(relation.getUuid(), relationUpdateParams);
         }
+        params.getOrderParams().setTotalAmount(totalAmount);
     }
 
     private void updatePriceInParams(OrderItemParams params, VendorProductRelationDTO relation) {
