@@ -11,13 +11,10 @@ import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.repositories.OrderRepository;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
-import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.ResourceAccessException;
-
 import java.util.Optional;
 
 @Service
@@ -44,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
         for (OrderItemParams orderItemParams : params.getOrderItemParams()) {
             Optional<Product> optionalProduct = productRepository.findById(orderItemParams.getProductUuid());
             if(!optionalProduct.isPresent())
-                throw new ResourceAccessException("Product not found with UUID: " + orderItemParams.getProductUuid());
+                throw new ResourceNotFoundException("Product not found with UUID: " + orderItemParams.getProductUuid());
             orderItemParams.setProduct(optionalProduct.get());
         }
     }
@@ -53,7 +50,7 @@ public class OrderServiceImpl implements OrderService{
         for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
             VendorProductRelationDTO relation = vendorProductRelationService.getAvailableRelationByProductVendorAndOrigin(orderItemParams.getProduct(), orderItemParams.getVendorUuid(), orderItemParams.getOriginAddressUuid());
             if (relation.getAvailableQuantity() < orderItemParams.getQuantity())
-                throw new RuntimeException("Cannot create order for quantity more than available quantity with vendor");
+                throw new IllegalArgumentException("Cannot create order for quantity more than available quantity with vendor");
             updatePriceInParams(orderItemParams, relation);
             VendorProductRelationUpdateParams relationUpdateParams = new VendorProductRelationUpdateParams();
             relationUpdateParams.setAvailableQuantity(relation.getAvailableQuantity() - orderItemParams.getQuantity());
