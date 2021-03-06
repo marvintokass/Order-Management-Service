@@ -81,7 +81,7 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
         return new VendorProductRelationDTO(optionalRelation.get());
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public VendorProductRelationDTO getRelationWithLowestProductPrice(Product product) {
         Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndStatusOrderByVendorPriceAsc(product, VendorProductRelation.VendorProductRelationStatus.AVAILABLE);

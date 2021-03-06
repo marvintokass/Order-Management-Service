@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ProductPriceQuoteDTO getProductPriceQuote(UUID uuid) {
         Optional<Product> optionalProduct = productRepository.findById(uuid);
         if(!optionalProduct.isPresent()) throw new ResourceNotFoundException("Product not found with UUID: " + uuid.toString());

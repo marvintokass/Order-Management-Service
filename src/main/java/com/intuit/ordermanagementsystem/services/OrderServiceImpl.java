@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
+import static java.lang.Thread.sleep;
+
 @Service
 public class OrderServiceImpl implements OrderService{
 
@@ -33,7 +35,12 @@ public class OrderServiceImpl implements OrderService{
         saveProductInOrderItemParams(params);
         updateVendorProductRelations(params);
         Order order = new Order(params);
-        orderRepository.save(order);
+        orderRepository.saveAndFlush(order);
+        try {
+            sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new OrderDTO(order);
     }
 
