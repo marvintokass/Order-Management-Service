@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
 @Service
@@ -50,10 +49,10 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public VendorProductRelationDTO updateRelation(VendorProductRelationUpdateParams params) {
-        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findById(params.getRelationUuid());
+    public VendorProductRelationDTO updateRelation(UUID uuid, VendorProductRelationUpdateParams params) {
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findById(uuid);
         if(!optionalRelation.isPresent())
-            throw new ResourceNotFoundException("Vendor Product Relation not found with UUID: " + params.getRelationUuid());
+            throw new ResourceNotFoundException("Vendor Product Relation not found with UUID: " + uuid);
         VendorProductRelation relation = optionalRelation.get();
 
         if(params.getAvailableQuantity() != null && params.getAvailableQuantity() != relation.getAvailableQuantity())

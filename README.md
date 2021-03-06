@@ -38,7 +38,20 @@ sample request body:
 }
 ```
 
-3. Fetch price quote for a particular product
+3. Update details for a product and vendor details
+
+```
+url: PATCH /vendor-product-relations/uuid
+sample request body: 
+{
+    "vendorPrice": 52000.0,
+    "availableQuantity": 10,
+    "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+    "taxSlab": "FIVE"
+}
+```
+
+4. Fetch price quote for a particular product
 
 ```
 url: GET /products/uuid/price-quote
@@ -97,7 +110,7 @@ sample response:
     }
 }
 ```
-4. Get details of a product
+5. Get details of a product
 
 ```
 url: GET /products/uuid
@@ -143,7 +156,7 @@ sample response:
 }
 ```
 
-5. Create Order for a particular product and vendor
+6. Create Order for a particular product and vendor
 
 ```
 url: POST /orders

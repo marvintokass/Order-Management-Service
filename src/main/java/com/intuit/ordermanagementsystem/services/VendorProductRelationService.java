@@ -11,7 +11,7 @@ public interface VendorProductRelationService {
 
     VendorProductRelationDTO createRelation(VendorProductRelationCreateParams params);
 
-    VendorProductRelationDTO updateRelation(VendorProductRelationUpdateParams params);
+    VendorProductRelationDTO updateRelation(UUID uuid, VendorProductRelationUpdateParams params);
 
     VendorProductRelationDTO getRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid);
 

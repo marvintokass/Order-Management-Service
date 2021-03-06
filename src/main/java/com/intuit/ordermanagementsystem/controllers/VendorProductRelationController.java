@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("vendor-product-relations")
 public class VendorProductRelationController {
@@ -25,10 +27,10 @@ public class VendorProductRelationController {
         return new ResponseEntity<>(relation, HttpStatus.CREATED);
     }
 
-    @PatchMapping(produces = "application/json")
-    ResponseEntity<VendorProductRelationDTO> updateVendorProductRelation(@RequestBody VendorProductRelationUpdateParams vendorProductRelationUpdateParams) {
-        validateVendorProductRelationUpdateParams(vendorProductRelationUpdateParams);
-        VendorProductRelationDTO relation = vendorProductRelationService.updateRelation(vendorProductRelationUpdateParams);
+    @PatchMapping(value="/{uuid}", produces = "application/json")
+    ResponseEntity<VendorProductRelationDTO> updateVendorProductRelation(@PathVariable UUID uuid, @RequestBody VendorProductRelationUpdateParams vendorProductRelationUpdateParams) {
+        validateVendorProductRelationUpdateParams(uuid, vendorProductRelationUpdateParams);
+        VendorProductRelationDTO relation = vendorProductRelationService.updateRelation(uuid, vendorProductRelationUpdateParams);
         return new ResponseEntity<>(relation, HttpStatus.OK);
     }
 
@@ -49,8 +51,8 @@ public class VendorProductRelationController {
             throw new IllegalArgumentException("Product UUID must be present");
     }
 
-    private void validateVendorProductRelationUpdateParams(VendorProductRelationUpdateParams params) {
-        if(params.getRelationUuid() == null)
+    private void validateVendorProductRelationUpdateParams(UUID uuid, VendorProductRelationUpdateParams params) {
+        if(uuid == null)
             throw new IllegalArgumentException("UUID must be present");
         if(params.getTaxSlab() == null)
             throw new IllegalArgumentException("Tax must be present");

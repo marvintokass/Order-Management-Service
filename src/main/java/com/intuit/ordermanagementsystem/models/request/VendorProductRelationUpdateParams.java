@@ -7,7 +7,6 @@ import java.util.UUID;
 @Data
 public class VendorProductRelationUpdateParams {
 
-    UUID relationUuid;
     Double vendorPrice;
     VendorProductRelation.TaxSlab taxSlab;
     Double availableQuantity;
