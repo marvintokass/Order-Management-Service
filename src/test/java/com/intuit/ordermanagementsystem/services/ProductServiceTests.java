@@ -1,7 +1,7 @@
 package com.intuit.ordermanagementsystem.services;
 
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
-import com.intuit.ordermanagementsystem.externalrequests.UserManagementServiceCommunicator;
+import com.intuit.ordermanagementsystem.client.UserManagementServiceCommunicator;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.dto.ProductDTO;
@@ -10,6 +10,7 @@ import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
+import com.intuit.ordermanagementsystem.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

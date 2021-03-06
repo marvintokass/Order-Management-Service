@@ -10,6 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -40,7 +42,7 @@ public class OrderController {
     private void validateOrderParams(OrderParams params) {
         if(params.getDeliveryAddressUuid() == null)
             throw new IllegalArgumentException("Delivery address must be present");
-        if(params.getDeliveryDate() == null)
+        if(params.getDeliveryDate() == null || params.getDeliveryDate().before(new Date()))
             throw new IllegalArgumentException("Delivery Date must be present");
         if(params.getBuyerUuid() == null)
             throw new IllegalArgumentException("Buyer UUID must be present");

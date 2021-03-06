@@ -1,5 +1,6 @@
-package com.intuit.ordermanagementsystem.externalrequests;
+package com.intuit.ordermanagementsystem.client.impl;
 
+import com.intuit.ordermanagementsystem.client.UserManagementServiceCommunicator;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;

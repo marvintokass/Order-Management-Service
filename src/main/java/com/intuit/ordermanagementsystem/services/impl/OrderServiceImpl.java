@@ -1,4 +1,4 @@
-package com.intuit.ordermanagementsystem.services;
+package com.intuit.ordermanagementsystem.services.impl;
 
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
 import com.intuit.ordermanagementsystem.models.Order;
@@ -11,7 +11,11 @@ import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.repositories.OrderRepository;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
+import com.intuit.ordermanagementsystem.services.OrderService;
+import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
+import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +24,7 @@ import java.util.Optional;
 import static java.lang.Thread.sleep;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -29,18 +33,15 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private VendorProductRelationService vendorProductRelationService;
 
+
     @Override
+    @Retryable(value = LockAcquisitionException.class)
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
     public OrderDTO createOrder(OrderCreateParams params) {
         saveProductInOrderItemParams(params);
         updateVendorProductRelations(params);
         Order order = new Order(params);
         orderRepository.saveAndFlush(order);
-        try {
-            sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return new OrderDTO(order);
     }
 

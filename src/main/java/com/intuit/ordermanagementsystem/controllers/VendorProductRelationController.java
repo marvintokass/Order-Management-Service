@@ -42,10 +42,18 @@ public class VendorProductRelationController {
             throw new IllegalArgumentException("Valid price must be present");
         if(params.getTax() == null)
             throw new IllegalArgumentException("Tax slab must be present");
-        params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
+        try {
+            params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid Tax Slab");
+        }
         if(params.getRelationStatus() == null)
             throw new IllegalArgumentException("Status must must be present");
-        params.setStatus(VendorProductRelation.VendorProductRelationStatus.valueOf(params.getRelationStatus()));
+        try {
+            params.setStatus(VendorProductRelation.VendorProductRelationStatus.valueOf(params.getRelationStatus()));
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid relation status");
+        }
         if(params.getAvailableQuantity() == null || params.getAvailableQuantity() < 0)
             throw new IllegalArgumentException("Valid quantity must be present");
         if(StringUtils.isEmpty(params.getVendorOriginAddressUuid()))
@@ -71,6 +79,8 @@ public class VendorProductRelationController {
     }
 
 }
+
+//todo UUID check
 
 
 

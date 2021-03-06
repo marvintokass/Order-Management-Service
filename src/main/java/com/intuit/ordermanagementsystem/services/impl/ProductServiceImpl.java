@@ -1,7 +1,7 @@
-package com.intuit.ordermanagementsystem.services;
+package com.intuit.ordermanagementsystem.services.impl;
 
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
-import com.intuit.ordermanagementsystem.externalrequests.UserManagementServiceCommunicator;
+import com.intuit.ordermanagementsystem.client.UserManagementServiceCommunicator;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
 import com.intuit.ordermanagementsystem.models.dto.ProductDTO;
@@ -9,6 +9,8 @@ import com.intuit.ordermanagementsystem.models.dto.ProductPriceQuoteDTO;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
+import com.intuit.ordermanagementsystem.services.ProductService;
+import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
