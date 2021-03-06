@@ -18,7 +18,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "vendor_product_relations")
+@Table(name = "vendor_product_relations",
+        indexes = {
+                @Index(name = "relation_vendor_index",  columnList="vendor_uuid"),
+                @Index(name = "relation_product_index", columnList="product_uuid")
+            }
+        )
 public class VendorProductRelation {
 
     public enum VendorProductRelationStatus {

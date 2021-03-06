@@ -22,7 +22,11 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders")
+@Table(name = "orders",
+        indexes = {
+                @Index(name = "order_buyer_index",  columnList="buyer_uuid")
+            }
+        )
 public class Order {
 
     public enum OrderStatus {

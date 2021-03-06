@@ -33,7 +33,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private VendorProductRelationService vendorProductRelationService;
 
-
     @Override
     @Retryable(value = LockAcquisitionException.class)
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)

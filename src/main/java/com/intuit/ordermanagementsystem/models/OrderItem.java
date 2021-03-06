@@ -19,7 +19,15 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_items")
+@Table(name = "order_items",
+        uniqueConstraints = @UniqueConstraint(columnNames={"order_uuid", "product_uuid"}),
+        indexes = {
+                @Index(name = "order_item_order_index",  columnList="order_uuid"),
+                @Index(name = "order_item_vendor_index",  columnList="vendor_uuid"),
+                @Index(name = "order_item_product_index",  columnList="product_uuid")
+        }
+
+    )
 public class OrderItem {
 
     public enum OrderItemStatus {

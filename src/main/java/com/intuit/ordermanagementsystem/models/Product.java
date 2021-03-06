@@ -20,7 +20,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "products")
+@Table(name = "products",
+        indexes = {
+            @Index(name = "product_category_index",  columnList="category_uuid"),
+            @Index(name = "product_name_index", columnList="name"),
+            @Index(name = "product_status_index", columnList="status")
+            }
+        )
 public class Product {
 
     public enum ProductStatus {
