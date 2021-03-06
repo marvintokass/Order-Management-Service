@@ -4,9 +4,11 @@ import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
 import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
+import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
+import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.repositories.OrderRepository;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
@@ -26,12 +28,13 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private VendorProductRelationRepository vendorProductRelationRepository;
+    private VendorProductRelationService vendorProductRelationService;
 
     @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
     public OrderDTO createOrder(OrderCreateParams params) {
         saveProductInOrderItemParams(params);
+        updateVendorProductRelations(params);
         Order order = new Order(params);
         orderRepository.save(order);
         return new OrderDTO(order);
@@ -42,26 +45,25 @@ public class OrderServiceImpl implements OrderService{
             Optional<Product> optionalProduct = productRepository.findById(orderItemParams.getProductUuid());
             if(!optionalProduct.isPresent())
                 throw new ResourceAccessException("Product not found with UUID: " + orderItemParams.getProductUuid());
-            updateVendorProductRelationForProduct(optionalProduct.get(), orderItemParams);
             orderItemParams.setProduct(optionalProduct.get());
         }
     }
 
-    private void updateVendorProductRelationForProduct(Product product, OrderItemParams params) {
-        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndVendorUuidAndVendorOriginAddressUuid(product, params.getVendorUuid(), params.getOriginAddressUuid());
-        if(!optionalRelation.isPresent())
-            throw new ResourceNotFoundException("Vendor Product Relation not found");
-        VendorProductRelation relation = optionalRelation.get();
-        if(relation.getAvailableQuantity() < params.getQuantity())
-            throw new RuntimeException("Cannot create order for quantity more than available quantity with vendor");
-        relation.setAvailableQuantity(relation.getAvailableQuantity() - params.getQuantity());
-        if(relation.getAvailableQuantity() == 0)
-            relation.setStatus(VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK);
-        updatePriceInParams(params, relation);
-        vendorProductRelationRepository.save(relation);
+    public void updateVendorProductRelations(OrderCreateParams params) {
+        for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
+            VendorProductRelationDTO relation = vendorProductRelationService.getRelationByProductVendorAndOrigin(orderItemParams.getProduct(), orderItemParams.getVendorUuid(), orderItemParams.getOriginAddressUuid());
+            if (relation.getAvailableQuantity() < orderItemParams.getQuantity())
+                throw new RuntimeException("Cannot create order for quantity more than available quantity with vendor");
+            updatePriceInParams(orderItemParams, relation);
+            VendorProductRelationUpdateParams relationUpdateParams = new VendorProductRelationUpdateParams();
+            relationUpdateParams.setRelationUuid(relation.getUuid());
+            relationUpdateParams.setAvailableQuantity(relation.getAvailableQuantity() - orderItemParams.getQuantity());
+            relationUpdateParams.setStatus(relation.getAvailableQuantity() == 0 ? VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK : null);
+            vendorProductRelationService.updateRelation(relationUpdateParams);
+        }
     }
 
-    private void updatePriceInParams(OrderItemParams params, VendorProductRelation relation) {
+    private void updatePriceInParams(OrderItemParams params, VendorProductRelationDTO relation) {
         params.setPrice(relation.getVendorPrice());
         params.setTaxSlab(relation.getTaxSlab());
     }

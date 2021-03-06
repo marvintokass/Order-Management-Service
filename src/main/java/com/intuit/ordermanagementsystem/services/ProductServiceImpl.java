@@ -3,16 +3,16 @@ package com.intuit.ordermanagementsystem.services;
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
 import com.intuit.ordermanagementsystem.externalrequests.UserManagementServiceCommunicator;
 import com.intuit.ordermanagementsystem.models.Product;
-import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
 import com.intuit.ordermanagementsystem.models.dto.ProductDTO;
 import com.intuit.ordermanagementsystem.models.dto.ProductPriceQuoteDTO;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
-import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private VendorProductRelationRepository vendorProductRelationRepository;
+    private VendorProductRelationService vendorProductRelationService;
     @Autowired
     private UserManagementServiceCommunicator umsCommunicator;
 
@@ -44,15 +44,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ProductPriceQuoteDTO getProductPriceQuote(UUID uuid) {
         Optional<Product> optionalProduct = productRepository.findById(uuid);
         if(!optionalProduct.isPresent()) throw new ResourceNotFoundException("Product not found with UUID: " + uuid.toString());
         Product product = optionalProduct.get();
-        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductOrderByVendorPriceAsc(product);
-        if(!optionalRelation.isPresent())
-            throw new ResourceNotFoundException("Price quote not found for product: " + uuid);
-        VendorProductRelation relation = optionalRelation.get();
-        ProductPriceQuoteDTO quote = new ProductPriceQuoteDTO(new ProductDTO(product), new VendorProductRelationDTO(relation));
+        VendorProductRelationDTO relation = vendorProductRelationService.getRelationWithLowestProductPrice(product);
+        ProductPriceQuoteDTO quote = new ProductPriceQuoteDTO(new ProductDTO(product), relation);
         fetchAndSetVendorNamesForProductPriceDTO(quote);
         return quote;
     }

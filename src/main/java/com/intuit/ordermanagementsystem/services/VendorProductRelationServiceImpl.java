@@ -5,16 +5,17 @@ import com.intuit.ordermanagementsystem.externalrequests.UserManagementServiceCo
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
+import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.models.response.UserResponseDTO;
 import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 public class VendorProductRelationServiceImpl implements VendorProductRelationService {
@@ -46,4 +47,47 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
                         .getName()
         );
     }
+
+    @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public VendorProductRelationDTO updateRelation(VendorProductRelationUpdateParams params) {
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findById(params.getRelationUuid());
+        if(!optionalRelation.isPresent())
+            throw new ResourceNotFoundException("Vendor Product Relation not found with UUID: " + params.getRelationUuid());
+        VendorProductRelation relation = optionalRelation.get();
+
+        if(params.getAvailableQuantity() != null && params.getAvailableQuantity() != relation.getAvailableQuantity())
+            relation.setAvailableQuantity(params.getAvailableQuantity());
+        if(params.getStatus() != null && params.getStatus() != relation.getStatus())
+            relation.setStatus(params.getStatus());
+        if(params.getTaxSlab() != null && params.getTaxSlab() != relation.getTaxSlab())
+            relation.setTaxSlab(params.getTaxSlab());
+        if(params.getVendorPrice() != null && params.getVendorPrice() != relation.getVendorPrice())
+            relation.setVendorPrice(params.getVendorPrice());
+        if(params.getVendorOriginAddressUuid() != null && params.getVendorOriginAddressUuid() != relation.getVendorOriginAddressUuid())
+            relation.setVendorOriginAddressUuid(params.getVendorOriginAddressUuid());
+
+        vendorProductRelationRepository.save(relation);
+        return new VendorProductRelationDTO(relation);
+
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Override
+    public VendorProductRelationDTO getRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid){
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndVendorUuidAndVendorOriginAddressUuid(product, vendorUuid, vendorOriginAddressUuid);
+        if (!optionalRelation.isPresent())
+            throw new ResourceNotFoundException("Vendor Product Relation not found");
+        return new VendorProductRelationDTO(optionalRelation.get());
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Override
+    public VendorProductRelationDTO getRelationWithLowestProductPrice(Product product) {
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductOrderByVendorPriceAsc(product);
+        if(!optionalRelation.isPresent())
+            throw new ResourceNotFoundException("Price quote not found for product: " + product.getUuid());
+        return new VendorProductRelationDTO(optionalRelation.get());
+    }
+
 }
