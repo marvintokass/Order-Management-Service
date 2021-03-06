@@ -29,6 +29,10 @@ public class OrderController {
     }
 
     private void validateOrderCreateParams(OrderCreateParams params) {
+        if(params.getOrderParams() == null)
+            throw new IllegalArgumentException("Order Params must be present");
+        if(params.getOrderItemParams() == null || params.getOrderItemParams().isEmpty())
+            throw new IllegalArgumentException("Order Item Params must be present");
         validateOrderParams(params.getOrderParams());
         validateOrderItemCreateParams(params.getOrderItemParams());
     }
@@ -43,9 +47,6 @@ public class OrderController {
     }
 
     private void validateOrderItemCreateParams(List<OrderItemParams> params) {
-        if(params == null || params.isEmpty()) {
-            throw new IllegalArgumentException("Order Items must be present");
-        }
         for (OrderItemParams param : params) {
             if(param.getProductUuid() == null)
                 throw new IllegalArgumentException("Product UUID must be present");

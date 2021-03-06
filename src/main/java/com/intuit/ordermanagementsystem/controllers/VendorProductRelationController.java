@@ -38,16 +38,16 @@ public class VendorProductRelationController {
     private void validateVendorProductRelationCreationParams(VendorProductRelationCreateParams params) {
         if(StringUtils.isEmpty(params.getVendorUuid()))
             throw new IllegalArgumentException("Vendor UUID must be present");
-        if(params.getVendorPrice() == null)
-            throw new IllegalArgumentException("price must be present");
+        if(params.getVendorPrice() == null || params.getVendorPrice() <= 0)
+            throw new IllegalArgumentException("Valid price must be present");
         if(params.getTax() == null)
             throw new IllegalArgumentException("Tax slab must be present");
         params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
         if(params.getRelationStatus() == null)
             throw new IllegalArgumentException("Status must must be present");
         params.setStatus(VendorProductRelation.VendorProductRelationStatus.valueOf(params.getRelationStatus()));
-        if(params.getAvailableQuantity() == null && params.getAvailableQuantity() >= 0)
-            throw new IllegalArgumentException("quantity must be present");
+        if(params.getAvailableQuantity() == null || params.getAvailableQuantity() <= 0)
+            throw new IllegalArgumentException("Valid quantity must be present");
         if(StringUtils.isEmpty(params.getVendorOriginAddressUuid()))
             throw new IllegalArgumentException("Vendor address UUID must be present");
         if(StringUtils.isEmpty(params.getProductUuid())) {

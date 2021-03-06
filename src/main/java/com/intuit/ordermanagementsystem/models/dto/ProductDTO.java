@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intuit.ordermanagementsystem.models.Product;
 import com.intuit.ordermanagementsystem.models.VendorProductRelation;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class ProductDTO {
 
     public ProductDTO(Product product) {

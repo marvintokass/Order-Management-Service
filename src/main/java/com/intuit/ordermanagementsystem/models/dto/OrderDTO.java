@@ -2,7 +2,10 @@ package com.intuit.ordermanagementsystem.models.dto;
 
 import com.intuit.ordermanagementsystem.models.Order;
 import com.intuit.ordermanagementsystem.models.OrderItem;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class OrderDTO {
 
     public OrderDTO(Order order) {

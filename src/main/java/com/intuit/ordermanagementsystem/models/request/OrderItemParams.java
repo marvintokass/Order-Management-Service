@@ -17,4 +17,5 @@ public class OrderItemParams {
     Order order;
     Double price;
     VendorProductRelation.TaxSlab taxSlab;
+
 }
