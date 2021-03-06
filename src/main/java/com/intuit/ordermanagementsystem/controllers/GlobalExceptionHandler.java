@@ -1,6 +1,9 @@
 package com.intuit.ordermanagementsystem.controllers;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.intuit.ordermanagementsystem.exceptions.ResourceNotFoundException;
+import com.intuit.ordermanagementsystem.models.response.ErrorPayload;
+import com.intuit.ordermanagementsystem.models.response.HandlerResponsePayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -8,25 +11,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
     @ExceptionHandler({ResourceNotFoundException.class, IllegalArgumentException.class})
-    public ResponseEntity<String> handleException(Exception ex) {
+    public ResponseEntity<HandlerResponsePayload> handleException(Exception ex) {
         logErrorDetails(ex);
-        return getResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return getResponseEntity(ex.getMessage(), ex.getLocalizedMessage(), 400 , HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
+    public ResponseEntity<HandlerResponsePayload> handleGenericException(Exception ex) {
         logErrorDetails(ex);
-        return getResponseEntity(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return getResponseEntity(ex.getMessage(), ex.getLocalizedMessage(), 500, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<String> getResponseEntity(String error, HttpStatus status) {
-        return new ResponseEntity<>(error, status);
+    private ResponseEntity<HandlerResponsePayload> getResponseEntity(String error, String errorDetail, int statusCode, HttpStatus status) {
+        ErrorPayload errorPayload = new ErrorPayload(error, errorDetail);
+        HandlerResponsePayload response = new HandlerResponsePayload();
+        response.setStatus(statusCode);
+        response.setTimestamp(LocalDateTime.now());
+        response.setTitle("Oops! Something went wrong");
+        response.setErrors(new ArrayList<>(Arrays.asList(errorPayload)));
+
+        return new ResponseEntity<>(response, status);
     }
 
     private void logErrorDetails(Exception ex) {

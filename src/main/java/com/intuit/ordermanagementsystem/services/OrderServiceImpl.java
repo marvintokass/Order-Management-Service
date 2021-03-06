@@ -51,13 +51,13 @@ public class OrderServiceImpl implements OrderService{
 
     public void updateVendorProductRelations(OrderCreateParams params) {
         for(OrderItemParams orderItemParams : params.getOrderItemParams()) {
-            VendorProductRelationDTO relation = vendorProductRelationService.getRelationByProductVendorAndOrigin(orderItemParams.getProduct(), orderItemParams.getVendorUuid(), orderItemParams.getOriginAddressUuid());
+            VendorProductRelationDTO relation = vendorProductRelationService.getAvailableRelationByProductVendorAndOrigin(orderItemParams.getProduct(), orderItemParams.getVendorUuid(), orderItemParams.getOriginAddressUuid());
             if (relation.getAvailableQuantity() < orderItemParams.getQuantity())
                 throw new RuntimeException("Cannot create order for quantity more than available quantity with vendor");
             updatePriceInParams(orderItemParams, relation);
             VendorProductRelationUpdateParams relationUpdateParams = new VendorProductRelationUpdateParams();
             relationUpdateParams.setAvailableQuantity(relation.getAvailableQuantity() - orderItemParams.getQuantity());
-            relationUpdateParams.setStatus(relation.getAvailableQuantity() == 0 ? VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK : null);
+            relationUpdateParams.setStatus(relationUpdateParams.getAvailableQuantity() == 0 ? VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK : null);
             vendorProductRelationService.updateRelation(relation.getUuid(), relationUpdateParams);
         }
     }

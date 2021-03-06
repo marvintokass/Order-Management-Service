@@ -3,6 +3,7 @@ package com.intuit.ordermanagementsystem.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCreateParams;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,22 +44,28 @@ public class VendorProductRelation {
     private LocalDateTime updatedAt;
 
     @Column(name = "vendor_uuid")
+    @NotNull
     private UUID vendorUuid;
 
     @Column(name = "vendor_price")
+    @NotNull
     private Double vendorPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tax_slab")
+    @NotNull
     private TaxSlab taxSlab;
 
     @Column(name = "available_quantity")
+    @NotNull
     private Double availableQuantity;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private VendorProductRelationStatus status;
 
     @Column(name = "vendor_origin_address_uuid")
+    @NotNull
     private UUID vendorOriginAddressUuid;
 
     @JsonBackReference

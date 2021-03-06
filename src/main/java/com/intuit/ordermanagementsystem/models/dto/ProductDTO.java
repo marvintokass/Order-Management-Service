@@ -22,10 +22,12 @@ public class ProductDTO {
         this.status = product.getStatus();
         this.categoryUuid = product.getCategoryUuid();
         List<VendorProductRelationDTO> relationDTOs = new ArrayList<>();
-        for(VendorProductRelation relation : product.getVendorProductRelations()) {
-            relationDTOs.add(new VendorProductRelationDTO(relation));
+        if(product.getVendorProductRelations() != null) {
+            for(VendorProductRelation relation : product.getVendorProductRelations()) {
+                relationDTOs.add(new VendorProductRelationDTO(relation));
+            }
+            this.vendorProductRelations = relationDTOs;
         }
-        this.vendorProductRelations = relationDTOs;
     }
 
     private UUID uuid;

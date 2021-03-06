@@ -6,6 +6,7 @@ import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -39,23 +40,27 @@ public class VendorProductRelationController {
             throw new IllegalArgumentException("Vendor UUID must be present");
         if(params.getVendorPrice() == null)
             throw new IllegalArgumentException("price must be present");
-        if(params.getTaxSlab() == null)
+        if(params.getTax() == null)
             throw new IllegalArgumentException("Tax slab must be present");
+        params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
+        if(params.getRelationStatus() == null)
+            throw new IllegalArgumentException("Status must must be present");
+        params.setStatus(VendorProductRelation.VendorProductRelationStatus.valueOf(params.getRelationStatus()));
         if(params.getAvailableQuantity() == null && params.getAvailableQuantity() >= 0)
             throw new IllegalArgumentException("quantity must be present");
-        if(params.getStatus() == null)
-            throw new IllegalArgumentException("Status must be present");
         if(StringUtils.isEmpty(params.getVendorOriginAddressUuid()))
             throw new IllegalArgumentException("Vendor address UUID must be present");
-        if(StringUtils.isEmpty(params.getProductUuid()))
+        if(StringUtils.isEmpty(params.getProductUuid())) {
             throw new IllegalArgumentException("Product UUID must be present");
+        }
     }
 
     private void validateVendorProductRelationUpdateParams(UUID uuid, VendorProductRelationUpdateParams params) {
         if(uuid == null)
             throw new IllegalArgumentException("UUID must be present");
-        if(params.getTaxSlab() == null)
+        if(params.getTax() == null)
             throw new IllegalArgumentException("Tax must be present");
+        params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
         if(params.getVendorOriginAddressUuid() == null)
             throw new IllegalArgumentException("Vendor origin address must be present");
         if(params.getVendorPrice() == null || params.getVendorPrice() <=0 )
@@ -64,6 +69,9 @@ public class VendorProductRelationController {
             throw new IllegalArgumentException("Quantity cannot be less than 0");
         if(params.getAvailableQuantity() == 0)
             params.setStatus(VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK);
+        else
+            params.setStatus(VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
+
     }
 
 }

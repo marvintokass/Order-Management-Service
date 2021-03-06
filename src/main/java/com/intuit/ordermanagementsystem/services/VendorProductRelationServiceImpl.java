@@ -73,19 +73,20 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
-    public VendorProductRelationDTO getRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid){
-        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndVendorUuidAndVendorOriginAddressUuid(product, vendorUuid, vendorOriginAddressUuid);
+    public VendorProductRelationDTO getAvailableRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid){
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndVendorUuidAndVendorOriginAddressUuidAndStatus(product, vendorUuid, vendorOriginAddressUuid, VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
         if (!optionalRelation.isPresent())
-            throw new ResourceNotFoundException("Vendor Product Relation not found");
+            throw new ResourceNotFoundException("Vendor Product Relation with AVAILABLE status not found for Product: " + product.getUuid() +
+                    " vendor: " + vendorUuid + " origin address: " + vendorOriginAddressUuid);
         return new VendorProductRelationDTO(optionalRelation.get());
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public VendorProductRelationDTO getRelationWithLowestProductPrice(Product product) {
-        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductOrderByVendorPriceAsc(product);
+        Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndStatusOrderByVendorPriceAsc(product, VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
         if(!optionalRelation.isPresent())
-            throw new ResourceNotFoundException("Price quote not found for product: " + product.getUuid());
+            throw new ResourceNotFoundException("No Available vendor relations for product: " + product.getUuid());
         return new VendorProductRelationDTO(optionalRelation.get());
     }
 

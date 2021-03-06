@@ -8,8 +8,10 @@ import java.util.UUID;
 public class VendorProductRelationUpdateParams {
 
     Double vendorPrice;
+    String tax;
     VendorProductRelation.TaxSlab taxSlab;
     Double availableQuantity;
+    String relationStatus;
     VendorProductRelation.VendorProductRelationStatus status;
     UUID vendorOriginAddressUuid;
 

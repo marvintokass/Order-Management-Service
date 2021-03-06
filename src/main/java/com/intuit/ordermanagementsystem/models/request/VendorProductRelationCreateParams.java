@@ -10,8 +10,10 @@ public class VendorProductRelationCreateParams {
 
     UUID vendorUuid;
     Double vendorPrice;
+    String tax;
     VendorProductRelation.TaxSlab taxSlab;
     Double availableQuantity;
+    String relationStatus;
     VendorProductRelation.VendorProductRelationStatus status;
     UUID vendorOriginAddressUuid;
     UUID productUuid;

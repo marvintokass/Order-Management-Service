@@ -3,6 +3,7 @@ package com.intuit.ordermanagementsystem.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,25 +41,32 @@ public class OrderItem {
     private LocalDateTime updatedAt;
 
     @ManyToOne(optional = false)
+    @NotNull
     @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
     private Product product;
 
+    @NotNull
     private Double quantity;
 
+    @NotNull
     @Column(name = "vendor_uuid")
     private UUID vendorUuid;
 
+    @NotNull
     private Double price;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
-    private OrderItemStatus status;
+    private OrderItemStatus status = OrderItemStatus.ORDERED;
 
     @Column(name = "tax_slab")
+    @NotNull
     @Enumerated(EnumType.STRING)
     private VendorProductRelation.TaxSlab taxSlab;
 
     @Column(name = "origin_address_uuid")
+    @NotNull
     private UUID originAddressUuid;
 
     @JsonBackReference

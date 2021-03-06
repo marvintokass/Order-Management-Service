@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intuit.ordermanagementsystem.models.request.ProductCreateParams;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,11 +41,13 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @NotNull
     private String name;
 
     @Column(name = "base_price")
     private Double basePrice;
 
+    @NotNull
     @Column(name = "category_uuid")
     private UUID categoryUuid;
 
@@ -53,8 +56,9 @@ public class Product {
     private ObjectNode details;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(columnDefinition = "VARCHAR(255) default 'ACTIVE'")
-    private ProductStatus status;
+    private ProductStatus status = ProductStatus.ACTIVE;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

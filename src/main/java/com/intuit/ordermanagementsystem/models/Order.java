@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.intuit.ordermanagementsystem.models.request.OrderCreateParams;
 import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,24 +43,29 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @NotNull
     @Column(name = "delivery_address_uuid")
     private UUID deliveryAddressUuid;
 
 
+    @NotNull
     @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.ORDERED;
 
+    @NotNull
     @Column(name = "buyer_uuid")
     private UUID buyerUuid;
 
     @Column(name = "total_amount")
     private Double totalAmount;
 
+    @NotNull
     @Column(name = "delivery_date")
     private Date deliveryDate;
 
     @JsonManagedReference
+    @NotNull
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 

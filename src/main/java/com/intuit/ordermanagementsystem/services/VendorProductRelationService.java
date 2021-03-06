@@ -13,7 +13,7 @@ public interface VendorProductRelationService {
 
     VendorProductRelationDTO updateRelation(UUID uuid, VendorProductRelationUpdateParams params);
 
-    VendorProductRelationDTO getRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid);
+    VendorProductRelationDTO getAvailableRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid);
 
     VendorProductRelationDTO getRelationWithLowestProductPrice(Product product);
 

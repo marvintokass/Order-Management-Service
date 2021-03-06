@@ -30,8 +30,9 @@ sample request body:
 {
     "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
     "vendorPrice": 52000.0,
+    "tax": "FIVE",
     "availableQuantity": 10,
-    "status": "AVAILABLE",
+    "relationStatus": "AVAILABLE",
     "vendorName": "Marvin",
     "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
     "productUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a5f"
@@ -47,7 +48,7 @@ sample request body:
     "vendorPrice": 52000.0,
     "availableQuantity": 10,
     "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
-    "taxSlab": "FIVE"
+    "tax": "FIVE"
 }
 ```
 
@@ -171,8 +172,6 @@ sample request body:
         "productUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a5f",
         "quantity": 100,
         "vendorUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a4f",
-        "price": 50000,
-        "taxSlab": "FIVE",
         "originAddressUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a3a" 
     }]
 }

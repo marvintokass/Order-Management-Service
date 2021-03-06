@@ -10,8 +10,9 @@ import java.util.UUID;
 @Repository
 public interface VendorProductRelationRepository extends JpaRepository<VendorProductRelation, UUID> {
 
-    Optional<VendorProductRelation> findFirstByProductOrderByVendorPriceAsc(Product product);
+    Optional<VendorProductRelation> findFirstByProductAndStatusOrderByVendorPriceAsc(Product product, VendorProductRelation.VendorProductRelationStatus status);
 
-    Optional<VendorProductRelation> findFirstByProductAndVendorUuidAndVendorOriginAddressUuid(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid);
+    Optional<VendorProductRelation> findFirstByProductAndVendorUuidAndVendorOriginAddressUuidAndStatus(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid,
+                                                                                                       VendorProductRelation.VendorProductRelationStatus status);
 
 }

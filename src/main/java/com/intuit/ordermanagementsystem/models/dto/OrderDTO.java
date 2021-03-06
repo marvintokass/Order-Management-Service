@@ -21,11 +21,13 @@ public class OrderDTO {
         this.buyerUuid = order.getBuyerUuid();
         this.totalAmount = order.getTotalAmount();
         this.deliveryDate = order.getDeliveryDate();
-        List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
-        for(OrderItem orderItem : order.getOrderItems()) {
-            orderItemDTOs.add(new OrderItemDTO(orderItem));
+        if(order.getOrderItems() != null) {
+            List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
+            for (OrderItem orderItem : order.getOrderItems()) {
+                orderItemDTOs.add(new OrderItemDTO(orderItem));
+            }
+            this.orderItems = orderItemDTOs;
         }
-        this.orderItems = orderItemDTOs;
     }
 
     private UUID uuid;
