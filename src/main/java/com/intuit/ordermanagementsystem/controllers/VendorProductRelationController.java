@@ -46,7 +46,7 @@ public class VendorProductRelationController {
         if(params.getRelationStatus() == null)
             throw new IllegalArgumentException("Status must must be present");
         params.setStatus(VendorProductRelation.VendorProductRelationStatus.valueOf(params.getRelationStatus()));
-        if(params.getAvailableQuantity() == null || params.getAvailableQuantity() <= 0)
+        if(params.getAvailableQuantity() == null || params.getAvailableQuantity() < 0)
             throw new IllegalArgumentException("Valid quantity must be present");
         if(StringUtils.isEmpty(params.getVendorOriginAddressUuid()))
             throw new IllegalArgumentException("Vendor address UUID must be present");
@@ -58,20 +58,16 @@ public class VendorProductRelationController {
     private void validateVendorProductRelationUpdateParams(UUID uuid, VendorProductRelationUpdateParams params) {
         if(uuid == null)
             throw new IllegalArgumentException("UUID must be present");
-        if(params.getTax() == null)
-            throw new IllegalArgumentException("Tax must be present");
-        params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
-        if(params.getVendorOriginAddressUuid() == null)
-            throw new IllegalArgumentException("Vendor origin address must be present");
-        if(params.getVendorPrice() == null || params.getVendorPrice() <=0 )
+        if(params.getTax() != null)
+            params.setTaxSlab(VendorProductRelation.TaxSlab.valueOf(params.getTax()));
+        if(params.getVendorPrice() != null && params.getVendorPrice() < 0 )
             throw new IllegalArgumentException("Vendor price is not correct");
-        if(params.getAvailableQuantity() < 0)
+        if(params.getAvailableQuantity() != null && params.getAvailableQuantity() < 0)
             throw new IllegalArgumentException("Quantity cannot be less than 0");
-        if(params.getAvailableQuantity() == 0)
+        if(params.getAvailableQuantity() != null && params.getAvailableQuantity() == 0)
             params.setStatus(VendorProductRelation.VendorProductRelationStatus.OUT_OF_STOCK);
         else
             params.setStatus(VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
-
     }
 
 }
