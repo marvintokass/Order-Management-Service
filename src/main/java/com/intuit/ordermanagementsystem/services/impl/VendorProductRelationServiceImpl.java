@@ -72,7 +72,6 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
 
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public VendorProductRelationDTO getAvailableRelationByProductVendorAndOrigin(Product product, UUID vendorUuid, UUID vendorOriginAddressUuid){
         Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndVendorUuidAndVendorOriginAddressUuidAndStatus(product, vendorUuid, vendorOriginAddressUuid, VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
