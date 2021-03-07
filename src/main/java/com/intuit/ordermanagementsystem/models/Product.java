@@ -47,14 +47,13 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "base_price")
     private Double basePrice;
 
-    @NotNull
-    @Column(name = "category_uuid")
+    @Column(name = "category_uuid", nullable = false)
     private UUID categoryUuid;
 
     @Type(type = "jsonb")
@@ -62,8 +61,7 @@ public class Product {
     private ObjectNode details;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
-    @Column(columnDefinition = "VARCHAR(255) default 'ACTIVE'")
+    @Column(columnDefinition = "VARCHAR(255) default 'ACTIVE'", nullable = false)
     private ProductStatus status = ProductStatus.ACTIVE;
 
     @JsonManagedReference

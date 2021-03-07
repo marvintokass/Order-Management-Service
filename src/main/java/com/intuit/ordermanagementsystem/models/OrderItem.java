@@ -49,32 +49,27 @@ public class OrderItem {
     private LocalDateTime updatedAt;
 
     @ManyToOne(optional = false)
-    @NotNull
-    @JoinColumn(name = "product_uuid", referencedColumnName = "uuid")
+    @JoinColumn(name = "product_uuid", referencedColumnName = "uuid", nullable = false)
     private Product product;
 
-    @NotNull
+    @Column(nullable = false)
     private Double quantity;
 
-    @NotNull
-    @Column(name = "vendor_uuid")
+    @Column(name = "vendor_uuid", nullable = false)
     private UUID vendorUuid;
 
-    @NotNull
+    @Column(nullable = false)
     private Double price;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
-    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
+    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'", nullable = false)
     private OrderItemStatus status = OrderItemStatus.ORDERED;
 
-    @Column(name = "tax_slab")
-    @NotNull
+    @Column(name = "tax_slab", nullable = false)
     @Enumerated(EnumType.STRING)
     private VendorProductRelation.TaxSlab taxSlab;
 
-    @Column(name = "origin_address_uuid")
-    @NotNull
+    @Column(name = "origin_address_uuid", nullable = false)
     private UUID originAddressUuid;
 
     @JsonBackReference

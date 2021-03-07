@@ -47,25 +47,21 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @NotNull
-    @Column(name = "delivery_address_uuid")
+    @Column(name = "delivery_address_uuid", nullable=false)
     private UUID deliveryAddressUuid;
 
 
-    @NotNull
-    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'")
+    @Column(columnDefinition = "VARCHAR(255) default 'ORDERED'", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.ORDERED;
 
-    @NotNull
-    @Column(name = "buyer_uuid")
+    @Column(name = "buyer_uuid", nullable = false)
     private UUID buyerUuid;
 
     @Column(name = "total_amount")
     private Double totalAmount;
 
-    @NotNull
-    @Column(name = "delivery_date")
+    @Column(name = "delivery_date", nullable = false)
     private Date deliveryDate;
 
     @JsonManagedReference

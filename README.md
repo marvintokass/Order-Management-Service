@@ -8,34 +8,70 @@ OMS is an service that helps people add products, vendor details selling those p
 1. Create a product
 
 ```
+sample request:
 url: POST /products
-sample request body: 
+body: 
 {
-    "name": "Iphone XS",
+    "name": "IPHONE",
     "details": {
         "make": "Apple",
         "memory": "16GB",
-        "storage": "256GB",
+        "storage": "128GB",
         "color": "White"
     },
-    "basePrice": 50000,
-    "categoryUuid":"54f2f0e7-1b83-43ef-9275-b8f15ce1d764"
+    "categoryUuid":"42af2f40-37c3-4775-be7a-b6c3cb6cb075",
+    "basePrice": 35000
+}
+
+sample response:
+status: 201 
+body:
+{
+    "uuid": "9d3c0171-f455-437f-b988-ecf9205d03b8",
+    "categoryUuid": "42af2f40-37c3-4775-be7a-b6c3cb6cb075",
+    "createdAt": "2021-03-07T10:56:57.116651",
+    "updatedAt": "2021-03-07T10:56:57.116764",
+    "name": "IPHONE",
+    "basePrice": 35000.0,
+    "details": {
+        "make": "Apple",
+        "memory": "16GB",
+        "storage": "128GB",
+        "color": "White"
+    },
+    "status": "ACTIVE",
+    "vendorProductRelations": null
 }
 ```
 2. Add price for a product and corresponding vendor details
 
 ```
+sample request:
 url: POST /vendor-product-relations
-sample request body: 
+body: 
 {
     "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-    "vendorPrice": 52000.0,
+    "vendorPrice": 37000.0,
     "tax": "FIVE",
-    "availableQuantity": 10,
     "relationStatus": "AVAILABLE",
-    "vendorName": "Marvin",
+    "availableQuantity": 10,
     "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
-    "productUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a5f"
+    "productUuid": "66468cf6-4e43-455d-aba6-e898c35f5417"
+}
+sample response:
+status: 201
+body:
+{
+    "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+    "createdAt": "2021-03-07T11:26:23.473402",
+    "updatedAt": "2021-03-07T11:26:23.47343",
+    "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+    "vendorPrice": 37000.0,
+    "taxSlab": "FIVE",
+    "availableQuantity": 10.0,
+    "status": "AVAILABLE",
+    "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+    "vendorName": "marvin"
 }
 ```
 
@@ -45,10 +81,26 @@ sample request body:
 url: PATCH /vendor-product-relations/uuid
 sample request body: 
 {
-    "vendorPrice": 52000.0,
-    "availableQuantity": 10,
+    "availableQuantity": 100,
+    "tax": "TWELVE",
     "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
-    "tax": "FIVE"
+    "vendorPrice": 37000
+}
+
+sameple response:
+status: 200
+body:
+{
+    "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+    "createdAt": "2021-03-07T11:26:23.473402",
+    "updatedAt": "2021-03-07T11:26:23.47343",
+    "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+    "vendorPrice": 37000.0,
+    "taxSlab": "TWELVE",
+    "availableQuantity": 100.0,
+    "status": "AVAILABLE",
+    "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+    "vendorName": null
 }
 ```
 
@@ -57,55 +109,47 @@ sample request body:
 ```
 url: GET /products/uuid/price-quote
 sample response: 
+status: 200
+body: 
 {
     "priceQuote": {
-        "uuid": "03e038b7-1af8-4dd0-895d-5f94ce373ae3",
-        "createdAt": "2021-03-05 16:32:20",
-        "updatedAt": "2021-03-05 16:32:20",
+        "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+        "createdAt": "2021-03-07T11:26:23.473402",
+        "updatedAt": "2021-03-07T11:27:45.052916",
         "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-        "vendorPrice": 49000.0,
-        "taxSlab": null,
-        "availableQuantity": 10.0,
+        "vendorPrice": 37000.0,
+        "taxSlab": "TWELVE",
+        "availableQuantity": 100.0,
         "status": "AVAILABLE",
-        "vendorName": "Marvin",
-        "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
+        "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+        "vendorName": "marvin"
     },
     "product": {
-        "uuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a5f",
-        "createdAt": "2021-03-05 16:25:18",
-        "updatedAt": "2021-03-05 16:25:18",
-        "name": "Iphone XS",
+        "uuid": "66468cf6-4e43-455d-aba6-e898c35f5417",
+        "categoryUuid": "42af2f40-37c3-4775-be7a-b6c3cb6cb075",
+        "createdAt": "2021-03-07T11:26:07.34877",
+        "updatedAt": "2021-03-07T11:26:07.348848",
+        "name": "IPHONE",
+        "basePrice": 35000.0,
         "details": {
             "make": "Apple",
             "color": "White",
             "memory": "16GB",
-            "storage": "256GB"
+            "storage": "128GB"
         },
         "status": "ACTIVE",
         "vendorProductRelations": [
             {
-                "uuid": "b3085eb7-170f-437e-8722-3d9d89f1d733",
-                "createdAt": "2021-03-05 16:25:35",
-                "updatedAt": "2021-03-05 16:25:35",
-                "vendorName": "Marvin",
-                "vendorUuid": "55f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-                "vendorPrice": 51000.0,
-                "taxSlab": null,
+                "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+                "createdAt": "2021-03-07T11:26:23.473402",
+                "updatedAt": "2021-03-07T11:27:45.052916",
+                "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+                "vendorPrice": 37000.0,
+                "taxSlab": "TWELVE",
                 "availableQuantity": 100.0,
                 "status": "AVAILABLE",
-                "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
-            },
-            {
-                "uuid": "03e038b7-1af8-4dd0-895d-5f94ce373ae3",
-                "createdAt": "2021-03-05 16:32:20",
-                "updatedAt": "2021-03-05 16:32:20",
-                "vendorName": "Marvin",
-                "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-                "vendorPrice": 49000.0,
-                "taxSlab": null,
-                "availableQuantity": 10.0,
-                "status": "AVAILABLE",
-                "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
+                "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+                "vendorName": "marvin"
             }
         ]
     }
@@ -116,42 +160,34 @@ sample response:
 ```
 url: GET /products/uuid
 sample response: 
+status: 200
+body:
 {
-    "uuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a5f",
-    "createdAt": "2021-03-05 16:25:18",
-    "updatedAt": "2021-03-05 16:25:18",
-    "name": "Iphone XS",
+    "uuid": "66468cf6-4e43-455d-aba6-e898c35f5417",
+    "categoryUuid": "42af2f40-37c3-4775-be7a-b6c3cb6cb075",
+    "createdAt": "2021-03-07T11:26:07.34877",
+    "updatedAt": "2021-03-07T11:26:07.348848",
+    "name": "IPHONE",
+    "basePrice": 35000.0,
     "details": {
         "make": "Apple",
         "color": "White",
         "memory": "16GB",
-        "storage": "256GB"
+        "storage": "128GB"
     },
-    "basePrice": 50000.0,
     "status": "ACTIVE",
-    "taxSlab": "FIVE",
     "vendorProductRelations": [
         {
-            "uuid": "b3085eb7-170f-437e-8722-3d9d89f1d733",
-            "createdAt": "2021-03-05 16:25:35",
-            "updatedAt": "2021-03-05 16:25:35",
-            "vendorUuid": "55f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-            "vendorPrice": 51000.0,
-            "vendorName": "Marvin",
+            "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+            "createdAt": "2021-03-07T11:26:23.473402",
+            "updatedAt": "2021-03-07T11:27:45.052916",
+            "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+            "vendorPrice": 37000.0,
+            "taxSlab": "TWELVE",
             "availableQuantity": 100.0,
             "status": "AVAILABLE",
-            "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
-        },
-        {
-            "uuid": "60aa10c5-0c86-4083-9754-d37d15e21a23",
-            "createdAt": "2021-03-05 16:28:39",
-            "updatedAt": "2021-03-05 16:28:39",
-            "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
-            "vendorPrice": 50000.0,
-            "vendorName": "Marvin",
-            "availableQuantity": 150.0,
-            "status": "AVAILABLE",
-            "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
+            "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+            "vendorName": null
         }
     ]
 }
@@ -174,6 +210,73 @@ sample request body:
         "vendorUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a4f",
         "originAddressUuid": "77d6fddb-8dcb-4ca2-93c7-cd3350d84a3a" 
     }]
+}
+sample response:
+status: 201
+body:
+{
+    "uuid": "208efdb2-7e4c-44e3-b48b-9d104efa5b5f",
+    "createdAt": "2021-03-07T11:35:26.879834",
+    "updatedAt": "2021-03-07T11:35:26.879863",
+    "deliveryAddressUuid": "03e038b7-1af8-4dd0-895d-5f94ce373ae3",
+    "status": "ORDERED",
+    "buyerUuid": "03e038b7-1af8-4dd0-895d-5f94ce373ae4",
+    "totalAmount": 3330000.0,
+    "deliveryDate": "2021-03-31T00:00:00.000+00:00",
+    "orderItems": [
+        {
+            "uuid": "b3c3f3ae-b6cd-4773-835e-ce580bf5b8d9",
+            "createdAt": "2021-03-07T11:35:26.888682",
+            "updatedAt": "2021-03-07T11:35:26.888966",
+            "product": {
+                "uuid": "66468cf6-4e43-455d-aba6-e898c35f5417",
+                "categoryUuid": "42af2f40-37c3-4775-be7a-b6c3cb6cb075",
+                "createdAt": "2021-03-07T11:26:07.34877",
+                "updatedAt": "2021-03-07T11:26:07.348848",
+                "name": "IPHONE",
+                "basePrice": 35000.0,
+                "details": {
+                    "make": "Apple",
+                    "color": "White",
+                    "memory": "16GB",
+                    "storage": "128GB"
+                },
+                "status": "ACTIVE",
+                "vendorProductRelations": [
+                    {
+                        "uuid": "f1484ce9-ce1c-4d32-855d-aa2c520f56ec",
+                        "createdAt": "2021-03-07T11:30:54.363971",
+                        "updatedAt": "2021-03-07T11:31:26.969918",
+                        "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+                        "vendorPrice": 37000.0,
+                        "taxSlab": "FIVE",
+                        "availableQuantity": 0.0,
+                        "status": "OUT_OF_STOCK",
+                        "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+                        "vendorName": null
+                    },
+                    {
+                        "uuid": "7e7bb0ca-2e85-4c9a-b907-3b6efaab088d",
+                        "createdAt": "2021-03-07T11:26:23.473402",
+                        "updatedAt": "2021-03-07T11:35:26.893534",
+                        "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+                        "vendorPrice": 37000.0,
+                        "taxSlab": "TWELVE",
+                        "availableQuantity": 0.0,
+                        "status": "OUT_OF_STOCK",
+                        "vendorOriginAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8",
+                        "vendorName": null
+                    }
+                ]
+            },
+            "quantity": 90.0,
+            "vendorUuid": "54f2f0e7-1b83-43ef-9275-b8f15ce1d764",
+            "price": 37000.0,
+            "status": "ORDERED",
+            "taxSlab": "TWELVE",
+            "originAddressUuid": "508910d3-c1a8-4436-8e51-5d15171186c8"
+        }
+    ]
 }
 ```
 

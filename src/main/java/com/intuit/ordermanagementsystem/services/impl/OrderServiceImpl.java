@@ -40,6 +40,11 @@ public class OrderServiceImpl implements OrderService {
         updateVendorProductRelations(params);
         Order order = new Order(params);
         orderRepository.saveAndFlush(order);
+        try {
+            sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new OrderDTO(order);
     }
 

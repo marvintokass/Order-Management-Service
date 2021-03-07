@@ -49,29 +49,24 @@ public class VendorProductRelation {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "vendor_uuid")
-    @NotNull
+    @Column(name = "vendor_uuid", nullable = false)
     private UUID vendorUuid;
 
-    @Column(name = "vendor_price")
-    @NotNull
+    @Column(name = "vendor_price", nullable = false)
     private Double vendorPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tax_slab")
-    @NotNull
+    @Column(name = "tax_slab", nullable = false)
     private TaxSlab taxSlab;
 
-    @Column(name = "available_quantity")
-    @NotNull
+    @Column(name = "available_quantity", nullable = false)
     private Double availableQuantity;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @Column(nullable = false)
     private VendorProductRelationStatus status;
 
-    @Column(name = "vendor_origin_address_uuid")
-    @NotNull
+    @Column(name = "vendor_origin_address_uuid", nullable = false)
     private UUID vendorOriginAddressUuid;
 
     @JsonBackReference
