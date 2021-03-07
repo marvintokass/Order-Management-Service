@@ -5,6 +5,8 @@ import com.intuit.ordermanagementsystem.models.request.VendorProductRelationCrea
 import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.models.request.VendorProductRelationUpdateParams;
 import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,23 @@ public class VendorProductRelationController {
 
     @Autowired
     private VendorProductRelationService vendorProductRelationService;
+    private Logger logger = LoggerFactory.getLogger(VendorProductRelationController.class);
 
     @PostMapping(produces = "application/json")
     ResponseEntity<VendorProductRelationDTO> createVendorProductRelation(@RequestBody VendorProductRelationCreateParams vendorProductRelationCreateParams) {
+        logger.info("\ncreating vendor product relation with params:- \n" + vendorProductRelationCreateParams.toString() + "\n");
         validateVendorProductRelationCreationParams(vendorProductRelationCreateParams);
         VendorProductRelationDTO relation = vendorProductRelationService.createRelation(vendorProductRelationCreateParams);
+        logger.info("\nvendor product relation created:- \n" + relation.toString() + "\n");
         return new ResponseEntity<>(relation, HttpStatus.CREATED);
     }
 
     @PatchMapping(value="/{uuid}", produces = "application/json")
     ResponseEntity<VendorProductRelationDTO> updateVendorProductRelation(@PathVariable UUID uuid, @RequestBody VendorProductRelationUpdateParams vendorProductRelationUpdateParams) {
+        logger.info("\nupdating vendor product relation with params:- \n" + vendorProductRelationUpdateParams.toString() + "\n");
         validateVendorProductRelationUpdateParams(uuid, vendorProductRelationUpdateParams);
         VendorProductRelationDTO relation = vendorProductRelationService.updateRelation(uuid, vendorProductRelationUpdateParams);
+        logger.info("\nvendor product relation updated:- \n" + relation.toString() + "\n");
         return new ResponseEntity<>(relation, HttpStatus.OK);
     }
 
@@ -79,8 +86,3 @@ public class VendorProductRelationController {
     }
 
 }
-
-//todo UUID check
-
-
-

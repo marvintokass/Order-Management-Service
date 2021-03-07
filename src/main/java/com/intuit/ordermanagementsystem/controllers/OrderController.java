@@ -5,6 +5,8 @@ import com.intuit.ordermanagementsystem.models.request.OrderItemParams;
 import com.intuit.ordermanagementsystem.models.request.OrderParams;
 import com.intuit.ordermanagementsystem.models.dto.OrderDTO;
 import com.intuit.ordermanagementsystem.services.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,13 +20,17 @@ import java.util.List;
 @RequestMapping("orders")
 public class OrderController {
 
+    private Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     @Autowired
     private OrderService orderService;
 
     @PostMapping(produces = "application/json")
     ResponseEntity<OrderDTO> createOrder(@RequestBody OrderCreateParams params) {
+        logger.info("\n\n create order request \n" + params.toString() + "\n\n");
         validateOrderCreateParams(params);
         OrderDTO order = orderService.createOrder(params);
+        logger.info("\n\n order created \n" + order.toString() + "\n\n");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "orders/" + order.getUuid());
         return new ResponseEntity<>(order, HttpStatus.CREATED);
