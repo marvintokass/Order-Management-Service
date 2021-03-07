@@ -21,7 +21,8 @@ import java.util.UUID;
 @Table(name = "vendor_product_relations",
         indexes = {
                 @Index(name = "relation_vendor_index",  columnList="vendor_uuid"),
-                @Index(name = "relation_product_index", columnList="product_uuid")
+                @Index(name = "relation_product_index", columnList="product_uuid"),
+                @Index(name = "relation_address_index", columnList="vendor_origin_address_uuid")
             }
         )
 public class VendorProductRelation {
