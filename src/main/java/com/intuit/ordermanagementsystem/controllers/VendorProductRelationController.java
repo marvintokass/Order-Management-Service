@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -29,8 +30,10 @@ public class VendorProductRelationController {
         logger.info("\ncreating vendor product relation with params:- \n" + vendorProductRelationCreateParams.toString() + "\n");
         validateVendorProductRelationCreationParams(vendorProductRelationCreateParams);
         VendorProductRelationDTO relation = vendorProductRelationService.createRelation(vendorProductRelationCreateParams);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "vendor-product-relations/" + relation.getUuid());
         logger.info("\nvendor product relation created:- \n" + relation.toString() + "\n");
-        return new ResponseEntity<>(relation, HttpStatus.CREATED);
+        return new ResponseEntity<>(relation, headers, HttpStatus.CREATED);
     }
 
     @PatchMapping(value="/{uuid}", produces = "application/json")

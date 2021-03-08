@@ -33,7 +33,7 @@ public class OrderController {
         logger.info("\n\n order created \n" + order.toString() + "\n\n");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "orders/" + order.getUuid());
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
     }
 
     private void validateOrderCreateParams(OrderCreateParams params) {
