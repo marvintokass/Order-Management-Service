@@ -11,7 +11,9 @@ import com.intuit.ordermanagementsystem.models.dto.VendorProductRelationDTO;
 import com.intuit.ordermanagementsystem.repositories.ProductRepository;
 import com.intuit.ordermanagementsystem.repositories.VendorProductRelationRepository;
 import com.intuit.ordermanagementsystem.services.VendorProductRelationService;
+import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,7 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
     }
 
     @Override
+    @Retryable(value = LockAcquisitionException.class)
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public VendorProductRelationDTO updateRelation(UUID uuid, VendorProductRelationUpdateParams params) {
         Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findById(uuid);
@@ -81,7 +84,6 @@ public class VendorProductRelationServiceImpl implements VendorProductRelationSe
         return new VendorProductRelationDTO(optionalRelation.get());
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public VendorProductRelationDTO getRelationWithLowestProductPrice(Product product) {
         Optional<VendorProductRelation> optionalRelation = vendorProductRelationRepository.findFirstByProductAndStatusOrderByVendorPriceAsc(product, VendorProductRelation.VendorProductRelationStatus.AVAILABLE);
